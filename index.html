@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Simulateur URSSAF – CMExpert</title>
+  <style>
+    :root {
+      --cm-primary:   #84C598FF;
+      --cm-bg:        #FFFFFFFF;
+      --cm-secondary: #D2D2D2FF;
+      --cm-accent:    #B973AFFF;
+      --cm-text:      #1a1a1a;
+    }
+
+    body {
+      background: var(--cm-bg);
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      color: var(--cm-text);
+      padding: 2rem;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    h1 {
+      color: var(--cm-accent);
+    }
+
+    select {
+      padding: 0.5rem;
+      font-size: 1rem;
+      border: 1px solid var(--cm-secondary);
+      border-radius: 5px;
+      margin-bottom: 1rem;
+    }
+
+    iframe {
+      width: 100%;
+      height: 850px;
+      border: 1px solid var(--cm-primary);
+      border-radius: 10px;
+    }
+
+    img {
+      max-width: 250px;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <img src="logo_cmexpert.png" alt="CMExpert logo" />
+  <h1>Simulateur URSSAF</h1>
+  <p>Choisissez un statut pour estimer vos cotisations ou revenus nets :</p>
+
+  <select id="simulateur-selector">
+    <option value="auto-entrepreneur">Auto-entrepreneur</option>
+    <option value="salarie">Salarié</option>
+    <option value="profession-liberale">Profession libérale</option>
+    <option value="independant">Indépendant</option>
+    <option value="artiste-auteur">Artiste-auteur</option>
+    <option value="assimile-salarie">Assimilé salarié</option>
+    <option value="aide-declaration-independant">Aide déclaration indépendant</option>
+  </select>
+
+  <iframe id="simulateur-frame" src="https://mon-entreprise.urssaf.fr/simulateur/auto-entrepreneur" title="Simulateur URSSAF"></iframe>
+
+  <script>
+    const selector = document.getElementById('simulateur-selector');
+    const frame = document.getElementById('simulateur-frame');
+
+    selector.addEventListener('change', () => {
+      const module = selector.value;
+      frame.src = `https://mon-entreprise.urssaf.fr/simulateur/${module}`;
+    });
+  </script>
+</body>
+</html>
