@@ -49,10 +49,9 @@
 </head>
 <body>
   <img src="logo_cmexpert.png" alt="CMExpert logo" />
-  <h1>Simulateur URSSAF</h1>
-  <p>Choisissez un statut pour estimer vos cotisations ou revenus nets :</p>
-
-  <select id="simulateur-selector">
+  <h1>Simulateur URSSAF – Choisissez un statut</h1>
+  <label for="simulateur">Statut à simuler :</label>
+  <select id="simulateur" onchange="document.getElementById('simulateurFrame').src = 'https://mon-entreprise.urssaf.fr/iframe?module=' + this.value;">
     <option value="auto-entrepreneur">Auto-entrepreneur</option>
     <option value="salarie">Salarié</option>
     <option value="profession-liberale">Profession libérale</option>
@@ -62,16 +61,14 @@
     <option value="aide-declaration-independant">Aide déclaration indépendant</option>
   </select>
 
-  <iframe id="simulateur-frame" src="https://mon-entreprise.urssaf.fr/simulateur/auto-entrepreneur" title="Simulateur URSSAF"></iframe>
+  <iframe
+    id="simulateurFrame"
+    src="https://mon-entreprise.urssaf.fr/iframe?module=auto-entrepreneur"
+    title="Simulateur URSSAF"
+  ></iframe>
 
-  <script>
-    const selector = document.getElementById('simulateur-selector');
-    const frame = document.getElementById('simulateur-frame');
-
-    selector.addEventListener('change', () => {
-      const module = selector.value;
-      frame.src = `https://mon-entreprise.urssaf.fr/simulateur/${module}`;
-    });
-  </script>
+  <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--cm-text);">
+    Ce simulateur URSSAF est mis à disposition par <strong>CMExpert</strong> pour accompagner votre choix de statut.
+  </p>
 </body>
 </html>
