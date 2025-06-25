@@ -24,6 +24,7 @@
 
     h1 {
       color: var(--cm-accent);
+      font-size: 1.8rem;
     }
 
     select {
@@ -32,6 +33,7 @@
       border: 1px solid var(--cm-secondary);
       border-radius: 5px;
       margin-bottom: 1rem;
+      width: 100%;
     }
 
     iframe {
@@ -39,36 +41,47 @@
       height: 850px;
       border: 1px solid var(--cm-primary);
       border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
     }
 
     img {
       max-width: 250px;
       margin-bottom: 1rem;
     }
+
+    p {
+      font-size: 0.9rem;
+    }
   </style>
 </head>
 <body>
-  <img src="logo_cmexpert.png" alt="CMExpert logo" />
+  <!-- Logo CMExpert -->
+  <img src="https://avelineg.github.io/simulateur-urssaf/logo_cmexpert.png" alt="CMExpert logo" />
+
+  <!-- Titre -->
   <h1>Simulateur URSSAF – Choisissez un statut</h1>
+
+  <!-- Sélection du simulateur -->
   <label for="simulateur">Statut à simuler :</label>
   <select id="simulateur" onchange="document.getElementById('simulateurFrame').src = 'https://mon-entreprise.urssaf.fr/iframe?module=' + this.value;">
     <option value="auto-entrepreneur">Auto-entrepreneur</option>
     <option value="salarie">Salarié</option>
-    <option value="profession-liberale">Profession libérale</option>
     <option value="independant">Indépendant</option>
-    <option value="artiste-auteur">Artiste-auteur</option>
     <option value="assimile-salarie">Assimilé salarié</option>
-    <option value="aide-declaration-independant">Aide déclaration indépendant</option>
+    <option value="artiste-auteur">Artiste-auteur</option>
+    <option value="aide-declaration-independant">Déclaration indépendant</option>
   </select>
 
+  <!-- Iframe -->
   <iframe
     id="simulateurFrame"
     src="https://mon-entreprise.urssaf.fr/iframe?module=auto-entrepreneur"
-    title="Simulateur URSSAF"
-  ></iframe>
+    title="Simulateur URSSAF">
+  </iframe>
 
-  <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--cm-text);">
-    Ce simulateur URSSAF est mis à disposition par <strong>CMExpert</strong> pour accompagner votre choix de statut.
+  <!-- Bas de page -->
+  <p style="margin-top: 1rem;">
+    Simulateur proposé par <strong>CMExpert</strong>, propulsé par les données de <a href="https://mon-entreprise.urssaf.fr" target="_blank" rel="noopener">mon-entreprise.urssaf.fr</a>.
   </p>
 </body>
 </html>
