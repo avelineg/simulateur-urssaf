@@ -2,15 +2,15 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Simulateur URSSAF – CMExpert</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simulateurs URSSAF – CMExpert</title>
   <style>
     body {
-      background: #fff;
       font-family: "Segoe UI", Tahoma, sans-serif;
+      padding: 2rem;
       max-width: 900px;
       margin: auto;
-      padding: 2rem;
+      background: #fff;
       color: #1a1a1a;
     }
 
@@ -19,49 +19,74 @@
     }
 
     img {
-      max-width: 260px;
+      max-width: 250px;
       margin-bottom: 1rem;
     }
 
     select {
-      margin: 1rem 0;
       padding: 0.5rem;
-      font-size: 1rem;
-      border-radius: 5px;
-      border: 1px solid #ccc;
       width: 100%;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
     }
 
     #simulateur-container {
-      margin-top: 1rem;
+      margin-top: 2rem;
     }
   </style>
 </head>
 <body>
-  <img src="logo_cmexpert.png" alt="Logo CMExpert" />
-  <h1>Simulateur URSSAF – Choisissez un statut</h1>
+  <img src="https://avelineg.github.io/simulateur-urssaf/logo_cmexpert.png" alt="Logo CMExpert" />
+  <h1>Simulateur URSSAF – Choisissez un module</h1>
 
-  <label for="moduleSelector">Statut à simuler :</label>
-  <select id="moduleSelector">
-    <option value="auto-entrepreneur">Auto-entrepreneur</option>
-    <option value="independant">Indépendant</option>
-    <option value="salarie">Salarié</option>
-    <option value="assimile-salarie">Assimilé salarié</option>
-    <option value="artiste-auteur">Artiste-auteur</option>
-    <option value="aide-declaration-independant">Déclaration indépendant</option>
-    <option value="simulateur-embauche">Embauche (assistant)</option>
+  <label for="simulateur">Statut ou assistant :</label>
+  <select id="simulateur">
+    <option value="simulateur-autoentrepreneur">Auto-entrepreneur</option>
+    <option value="simulateur-independant">Indépendant</option>
+    <option value="simulateur-salarie">Salarié</option>
+    <option value="simulateur-assimilesalarie">Assimilé salarié (SASU)</option>
+    <option value="simulateur-ei">Entreprise Individuelle</option>
+    <option value="simulateur-eirl">EIRL</option>
+    <option value="simulateur-eurl">EURL</option>
+    <option value="simulateur-embauche">Embauche</option>
+    <option value="simulateur-artiste-auteur">Artiste-auteur</option>
+    <option value="simulateur-chomage-partiel">Chômage partiel</option>
+    <option value="comparaison-statuts">Comparaison des statuts</option>
+    <option value="pharmacien">Pharmacien</option>
+    <option value="medecin">Médecin</option>
+    <option value="chirurgien-dentiste">Chirurgien-dentiste</option>
+    <option value="sage-femme">Sage-femme</option>
+    <option value="auxiliaire-medical">Auxiliaire médical</option>
+    <option value="avocat">Avocat</option>
+    <option value="expert-comptable">Expert-comptable</option>
+    <option value="profession-liberale">Profession libérale</option>
+    <option value="dividendes">Dividendes</option>
+    <option value="cout-creation-entreprise">Coût création entreprise</option>
+    <option value="impot-societe">Impôt sur les sociétés</option>
+    <option value="cipav">CIPAV</option>
+    <option value="simulateur-reduction-generale">Réduction générale</option>
+    <option value="simulateur-lodeom">LODEOM</option>
+    <option value="simulateur-cessation-activité">Cessation d’activité</option>
+    <option value="simulateur-location-de-logement-meuble">Location meublée</option>
+    <option value="choix-statut-juridique">Choix du statut juridique</option>
+    <option value="cmg">CMG</option>
+    <option value="déclaration-charges-sociales-indépendant">Déclaration charges sociales indépendant</option>
+    <option value="déclaration-revenus-pamc">Déclaration revenus PAMC</option>
+    <option value="recherche-code-ape">Recherche code APE</option>
   </select>
 
   <div id="simulateur-container"></div>
 
   <script>
-    const container = document.getElementById('simulateur-container');
-    const selector = document.getElementById('moduleSelector');
+    const container = document.getElementById("simulateur-container");
+    const selector = document.getElementById("simulateur");
 
     function loadSimulateur(module) {
       container.innerHTML = "";
       const script = document.createElement("script");
-      script.setAttribute("src", "https://mon-entreprise.urssaf.fr/simulateur-iframe-integration.js");
+      script.src = "https://mon-entreprise.urssaf.fr/simulateur-iframe-integration.js";
       script.setAttribute("data-module", module);
       script.setAttribute("data-couleur", "#B973AF");
       container.appendChild(script);
@@ -71,7 +96,6 @@
       loadSimulateur(selector.value);
     });
 
-    // Charger le simulateur par défaut
     loadSimulateur(selector.value);
   </script>
 </body>
