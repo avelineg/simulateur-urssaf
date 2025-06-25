@@ -5,83 +5,74 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Simulateur URSSAF – CMExpert</title>
   <style>
-    :root {
-      --cm-primary:   #84C598FF;
-      --cm-bg:        #FFFFFFFF;
-      --cm-secondary: #D2D2D2FF;
-      --cm-accent:    #B973AFFF;
-      --cm-text:      #1a1a1a;
-    }
-
     body {
-      background: var(--cm-bg);
+      background: #fff;
       font-family: "Segoe UI", Tahoma, sans-serif;
-      color: var(--cm-text);
-      padding: 2rem;
       max-width: 900px;
       margin: auto;
+      padding: 2rem;
+      color: #1a1a1a;
     }
 
     h1 {
-      color: var(--cm-accent);
-      font-size: 1.8rem;
-    }
-
-    select {
-      padding: 0.5rem;
-      font-size: 1rem;
-      border: 1px solid var(--cm-secondary);
-      border-radius: 5px;
-      margin-bottom: 1rem;
-      width: 100%;
-    }
-
-    iframe {
-      width: 100%;
-      height: 850px;
-      border: 1px solid var(--cm-primary);
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      color: #B973AF;
     }
 
     img {
-      max-width: 250px;
+      max-width: 260px;
       margin-bottom: 1rem;
     }
 
-    p {
-      font-size: 0.9rem;
+    select {
+      margin: 1rem 0;
+      padding: 0.5rem;
+      font-size: 1rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      width: 100%;
+    }
+
+    #simulateur-container {
+      margin-top: 1rem;
     }
   </style>
 </head>
 <body>
-  <!-- Logo CMExpert -->
-  <img src="https://avelineg.github.io/simulateur-urssaf/logo_cmexpert.png" alt="CMExpert logo" />
-
-  <!-- Titre -->
+  <img src="logo_cmexpert.png" alt="Logo CMExpert" />
   <h1>Simulateur URSSAF – Choisissez un statut</h1>
 
-  <!-- Sélection du simulateur -->
-  <label for="simulateur">Statut à simuler :</label>
-  <select id="simulateur" onchange="document.getElementById('simulateurFrame').src = 'https://mon-entreprise.urssaf.fr/iframe?module=' + this.value;">
+  <label for="moduleSelector">Statut à simuler :</label>
+  <select id="moduleSelector">
     <option value="auto-entrepreneur">Auto-entrepreneur</option>
-    <option value="salarie">Salarié</option>
     <option value="independant">Indépendant</option>
+    <option value="salarie">Salarié</option>
     <option value="assimile-salarie">Assimilé salarié</option>
     <option value="artiste-auteur">Artiste-auteur</option>
     <option value="aide-declaration-independant">Déclaration indépendant</option>
+    <option value="simulateur-embauche">Embauche (assistant)</option>
   </select>
 
-  <!-- Iframe -->
-  <iframe
-    id="simulateurFrame"
-    src="https://mon-entreprise.urssaf.fr/iframe?module=auto-entrepreneur"
-    title="Simulateur URSSAF">
-  </iframe>
+  <div id="simulateur-container"></div>
 
-  <!-- Bas de page -->
-  <p style="margin-top: 1rem;">
-    Simulateur proposé par <strong>CMExpert</strong>, propulsé par les données de <a href="https://mon-entreprise.urssaf.fr" target="_blank" rel="noopener">mon-entreprise.urssaf.fr</a>.
-  </p>
+  <script>
+    const container = document.getElementById('simulateur-container');
+    const selector = document.getElementById('moduleSelector');
+
+    function loadSimulateur(module) {
+      container.innerHTML = "";
+      const script = document.createElement("script");
+      script.setAttribute("src", "https://mon-entreprise.urssaf.fr/simulateur-iframe-integration.js");
+      script.setAttribute("data-module", module);
+      script.setAttribute("data-couleur", "#B973AF");
+      container.appendChild(script);
+    }
+
+    selector.addEventListener("change", () => {
+      loadSimulateur(selector.value);
+    });
+
+    // Charger le simulateur par défaut
+    loadSimulateur(selector.value);
+  </script>
 </body>
 </html>
