@@ -5,35 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Simulateurs URSSAF – CMExpert</title>
   <style>
-    :root { --sim-scale: 0.85; } /* ← ajuste ici */
+    :root { --sim-scale: 0.85; --sim-cut: 72px; } /* ← coupe le bandeau */
 
-    body {
-      font-family: "Segoe UI", Tahoma, sans-serif;
-      padding: 1.25rem;
-      max-width: 900px;
-      margin: auto;
-      background: #fff;
-      color: #1a1a1a;
-      font-size: 15px; /* réduit le texte de ta page */
-    }
-    h1 { color: #B973AF; font-size: 1.6rem; }
-    h2 { font-size: 1.1rem; margin-top: .25rem; }
+    body { font-family: "Segoe UI", Tahoma, sans-serif; padding: 1.25rem; max-width: 900px; margin: auto; color:#1a1a1a; font-size:15px; }
+    h1 { color:#B973AF; font-size:1.6rem; }
+    h2 { font-size:1.1rem; margin-top:.25rem; }
+    select{ padding:.4rem; width:100%; font-size:.95rem; margin-bottom:1rem; border:1px solid #ccc; border-radius:5px; }
 
-    img { max-width: 220px; margin-bottom: 1rem; }
-    select {
-      padding: .4rem; width: 100%; font-size: .95rem; margin-bottom: 1rem;
-      border: 1px solid #ccc; border-radius: 5px;
-    }
-
-    /* Wrapper de l’iframe URSSAF + réduction visuelle */
+    /* Recadrage + réduction */
     #simulateur-wrapper { position: relative; width: 100%; overflow: hidden; }
-    #simulateur-scale {
-      transform: scale(var(--sim-scale));
-      transform-origin: top left;
-      width: calc(100% / var(--sim-scale)); /* garde la largeur visuelle */
-    }
-    /* L’iframe est injectée par le script */
-    #simulateur-container iframe { width: 100%; border: 0; }
+    #simulateur-shift   { position: relative; top: calc(-1 * var(--sim-cut)); } /* décale vers le haut */
+    #simulateur-scale   { transform: scale(var(--sim-scale)); transform-origin: top left; width: calc(100% / var(--sim-scale)); }
+    #simulateur-container iframe { width:100%; border:0; }
   </style>
 </head>
 <body>
@@ -76,15 +59,20 @@
   </select>
 
   <div id="simulateur-wrapper">
-    <div id="simulateur-scale">
-      <div id="simulateur-container"></div>
+    <div id="simulateur-shift">
+      <div id="simulateur-scale">
+        <div id="simulateur-container"></div>
+      </div>
     </div>
   </div>
 
   <script>
-    const SCALE = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--sim-scale')) || 0.85;
-    const wrapper = document.getElementById('simulateur-wrapper');
-    const container = document.getElementById('simulateur-container');
+    const CSS = getComputedStyle(document.documentElement);
+    const SCALE = parseFloat(CSS.getPropertyValue('--sim-scale')) || 0.85;
+    const CUT   = parseFloat(CSS.getPropertyValue('--sim-cut'))   || 0;
+
+    const wrapper  = document.getElementById('simulateur-wrapper');
+    const container= document.getElementById('simulateur-container');
     const selector = document.getElementById('simulateur');
 
     function loadSimulateur(module) {
@@ -95,23 +83,22 @@
       script.setAttribute("data-couleur", "#B973AF");
       container.appendChild(script);
 
-      // Ajuste la hauteur visible du wrapper quand l’iframe est redimensionnée
-      const watchIframe = new MutationObserver(() => syncHeight());
-      const waitForIframe = new MutationObserver(() => {
+      const watch = new MutationObserver(syncHeight);
+      const wait  = new MutationObserver(() => {
         const iframe = container.querySelector("iframe");
         if (!iframe) return;
-        waitForIframe.disconnect();
-        watchIframe.observe(iframe, { attributes: true, attributeFilter: ["style", "height"] });
+        wait.disconnect();
+        watch.observe(iframe, { attributes: true, attributeFilter: ["style", "height"] });
         syncHeight();
       });
-      waitForIframe.observe(container, { childList: true, subtree: true });
+      wait.observe(container, { childList: true, subtree: true });
     }
 
     function syncHeight() {
       const iframe = container.querySelector("iframe");
       if (!iframe) return;
       const h = parseFloat(iframe.style.height || iframe.getAttribute("height") || iframe.offsetHeight || 0);
-      if (h) wrapper.style.height = (h * SCALE) + "px";
+      if (h) wrapper.style.height = Math.max(0, h * SCALE - CUT) + "px"; // recadrage
     }
 
     selector.addEventListener("change", () => loadSimulateur(selector.value));
