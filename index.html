@@ -16,8 +16,8 @@
       color: #1a1a1a;
       font-size: 15px; /* réduit le texte de ta page */
     }
-    h1 { color: #B973AF; font-size: 1.6rem; }
-    h2 { font-size: 1.1rem; margin-top: .25rem; }
+    h1 { color: #B973AF; font-size: 1.4rem; }
+    h2 { color: #B973AF; font-size: 1.1rem; margin-top: .2rem; }
 
     img { max-width: 220px; margin-bottom: 1rem; }
     select {
@@ -37,7 +37,6 @@
   </style>
 </head>
 <body>
-  <h1>Nous vous proposons le simulateur URSSAF</h1>
   <h2>Choisissez votre statut ou votre projet pour calculer les coûts associés !</h2>
 
   <label for="simulateur">Statut ou assistant :</label>
@@ -117,5 +116,6 @@
     selector.addEventListener("change", () => loadSimulateur(selector.value));
     loadSimulateur(selector.value);
   </script>
+  <div>Simulateur URSSAF officiel intégré</div>
 </body>
 </html>
