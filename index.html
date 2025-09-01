@@ -10,6 +10,7 @@
       --cm-soft:#fafdfb; --cm-border:#e6f0ea; --text:#1a1a1a;
       --card-max: 680px;
       --sim-scale: 0.85;
+      --title-size: clamp(32px, 2vw, 36px);
     }
 
     body {
@@ -33,13 +34,16 @@
       margin: 0 auto;
     }
 
-    .title{
+    /* Taille et style communs pour tous les titres de widgets */
+    .frame > h1, .frame > h2, .title{
       margin:0 0 10px 0!important;
       color:var(--cm-accent);
       font-weight:700;
-      font-size:clamp(32px,2vw,36px)!important;
+      font-size: var(--title-size) !important;
+      line-height:1.2!important;
       letter-spacing:-.5px;
     }
+
     .subtitle{
       margin:0 0 18px 0;
       color:#6b7280;
@@ -112,10 +116,12 @@
     }
 
     @media (max-width:740px){
-      :root{ --card-max: 100%; }
+      :root{
+        --card-max: 100%;
+        --title-size: 26px; /* taille commune sur mobile */
+      }
       .frame{padding:12px 3vw;}
       .card{padding:12px 4vw 7px 4vw;}
-      .title{font-size:26px!important;}
     }
   </style>
 </head>
